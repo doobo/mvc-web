@@ -67,13 +67,6 @@
             <version>1.1</version>
         </dependency>
 
-        <!--日志工具-->
-        <dependency>
-            <groupId>com.github.doobo</groupId>
-            <artifactId>log4j2-client</artifactId>
-            <version>v1.0.mvc</version>
-        </dependency>
-
         <!--配置中心-->
         <dependency>
             <groupId>com.xuxueli</groupId>
@@ -84,7 +77,18 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-context</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+
+        <!--日志工具-->
+        <dependency>
+            <groupId>com.github.doobo</groupId>
+            <artifactId>log4j2-client</artifactId>
+            <version>v1.0.mvc</version>
         </dependency>
 
         <dependency>
@@ -132,6 +136,7 @@
                     <exclude>config-local/*</exclude>
                     <exclude>config-daily/*</exclude>
                     <exclude>config-beta/*</exclude>
+                    <exclude>config/*</exclude>
                 </excludes>
             </resource>
             <resource>
