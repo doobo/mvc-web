@@ -19,4 +19,25 @@
                                 expression="org.springframework.web.bind.annotation.RestControllerAdvice" />
     </context:component-scan>
 
+    <!--<context:property-placeholder
+            file-encoding="utf-8"
+            ignore-resource-not-found="true"
+            ignore-unresolvable="false"
+            location="classpath:config/xxl-conf-local.properties" />-->
+    <context:property-placeholder location="classpath:config/xxl-conf.properties"/>
+
+    <!-- ********************************* XXL-CONF 配置工厂 ********************************* -->
+    <bean id="xxlConfFactory" class="com.xxl.conf.core.spring.XxlConfFactory"  >
+        <!-- 环境配置文件地址，如 "xxl-conf.properties" 或 "file:/data/webapps/xxl-conf.properties" -->
+        <property name="zkaddress" value="${xxl.conf.zkaddress}" />
+        <property name="zkdigest" value="${xxl.conf.zkdigest}" />
+        <property name="env" value="${xxl.conf.env}" />
+        <property name="mirrorfile" value="${xxl.conf.mirrorfile}" />
+    </bean>
+
+    <!-- ********************************* 测试示例（可删除） ********************************* -->
+    <bean id="confService" class="vip.ipav.spring.services.ConfService">
+        <property name="paramByXml" value="$XxlConf{default.key03}" />
+    </bean>
+
 </beans>
