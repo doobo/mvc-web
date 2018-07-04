@@ -16,18 +16,23 @@ spring mvc
 	vi conf/zoo.cfg
 	```
 	#####单节点配置
-		dataLogDir=/tmp/zookeeper
-		dataDir=/opt/zookeeper_data
-		server.1=localhost:2888:3888
+    ```
+    dataLogDir=/tmp/zookeeper
+    dataDir=/opt/zookeeper_data
+    server.1=localhost:2888:3888
+    ```
  	#####集群配置
-		tickTime=2000
-		dataDir=/home/lidong/zookeeper
-		clientPort=2181
-		initLimit=5
-		syncLimit=2
-		server.1=192.168.0.105:2888:3888
-		server.2=192.168.0.108:2888:3888
-		server.2=192.168.0.112:2888:3888
+    ```aidl
+    tickTime=2000
+    dataDir=/home/lidong/zookeeper
+    clientPort=2181
+    initLimit=5
+    syncLimit=2
+    server.1=192.168.0.105:2888:3888
+    server.2=192.168.0.108:2888:3888
+    server.2=192.168.0.112:2888:3888
+    ```
+	
 2. 安装xxl-conf
     #####下载地址
     https://github.com/xuxueli/xxl-conf/releases
@@ -46,11 +51,9 @@ spring mvc
     ```
 
 #### 使用说明
-
 1. xxl-conf-sample-spring：spring版本
 2. xxl-conf-sample-springboot：springboot版本
 3. xxl-conf-sample-jfinal：jfinal版本
-4.xxl-conf-sample-nutz：nutz版本
 #####设置“XXL-CONF 配置工厂”
 ```
     @Bean
