@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import vip.ipav.log.util.LoggerTools;
 import vip.ipav.spring.services.ConfService;
 import vip.ipav.spring.services.StaticHtmlService;
-import vip.ipav.spring.utils.HttpUtil;
+import vip.ipav.spring.services.XxlConfService;
 
 @Controller
 public class IndexController {
@@ -27,11 +27,15 @@ public class IndexController {
     }
 
     @Autowired
+    private XxlConfService xxlConfService;
+
+    @Autowired
     private StaticHtmlService staticHtmlService;
 
     @GetMapping("next")
     public String toNext(){
         staticHtmlService.createStaticHtml();
+        LoggerTools.getCustomLogger().info(xxlConfService);
         return "index";
     }
 

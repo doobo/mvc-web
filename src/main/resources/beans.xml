@@ -26,8 +26,10 @@
             location="classpath:config/xxl-conf-local.properties" />-->
     <context:property-placeholder location="classpath:config/xxl-conf.properties"/>
 
+
     <!-- ********************************* XXL-CONF 配置工厂 ********************************* -->
-    <bean id="xxlConfFactory" class="com.xxl.conf.core.spring.XxlConfFactory"  >
+    <!--也可以通过@bean方式导入，例子：vip.ipav.spring.services.XxlConfService-->
+    <bean id="xxlConfFactorySimple" class="com.xxl.conf.core.spring.XxlConfFactory"  >
         <!-- 环境配置文件地址，如 "xxl-conf.properties" 或 "file:/data/webapps/xxl-conf.properties" -->
         <property name="zkaddress" value="${xxl.conf.zkaddress}" />
         <property name="zkdigest" value="${xxl.conf.zkdigest}" />
