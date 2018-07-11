@@ -15,13 +15,13 @@ spring mvc
 	```
 	vi conf/zoo.cfg
 	```
-	#####单节点配置
+    #####单节点配置
     ```
-    dataLogDir=/tmp/zookeeper
+    #log目录会频频写入，磁盘性能要好点，重新初始化要清空这两个目录
+    dataLogDir=/opt/zookeeper_log
     dataDir=/opt/zookeeper_data
-    server.1=localhost:2888:3888
     ```
- 	#####集群配置
+    #####集群配置
     ```aidl
     tickTime=2000
     dataDir=/home/lidong/zookeeper
@@ -32,28 +32,36 @@ spring mvc
     server.2=192.168.0.108:2888:3888
     server.2=192.168.0.112:2888:3888
     ```
-	
-2. 安装xxl-conf
-    #####下载地址
-    https://github.com/xuxueli/xxl-conf/releases
-    #####初始化数据库
-    xxl-conf/doc/db/xxl-conf.sql
+    #####简单权限配置
     ```
-    mysql -uroot -p
-    source xxl-conf.sql
-    ```
-    #####解压编译
-    ```
-    cd xxl-conf/xxl-conf-admin
-    mvn clean install -DskipTests
-    java -jar xxl-conf-admin.jar --mysqladdress=127.0.0.1:3306 --mysqlusername=root --mysqlpassword=passwd --zkaddress=ipav.vip:2181 --server.port=8080
-    地址：http://localhost:8080/xxl-conf-admin
-    ```
+#一般授权过程,只对该节点有效,不继承权限;删除的权限,在父节点,和Linux权限相似
+echo -n zookeeper:zookeeper | openssl dgst -binary -sha1 | openssl base64  #编译密码，用于设置权限
+setAcl /zookeeper/quota digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
+setAcl /zookeeper digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
+setAcl /zookeeper digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
+create /xxl-coof xxl-conf		#创建节点，后面设置权限
+setAcl /xxl-coof digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
+setAcl / digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca #根节点设置权限
 
-#### 使用说明
-1. xxl-conf-sample-spring：spring版本
-2. xxl-conf-sample-springboot：springboot版本
-3. xxl-conf-sample-jfinal：jfinal版本
+#现在使用ls get等命令之前，需要授权
+addauth digest zookeeper:zookeeper  #授权
+ls /		#查看节点
+    ```
+#####忘记授权账号或密码
+a、修改zoo.cfg配置文件
+    skipACL=yes #所有操作多跳过权限检测，重启哦
+
+b、使用父节点的删除权限，删除子节点
+    delete /childNode
+
+c、删除zookeeper的data目录和log目录，重启
+
+d、使用超级管理员权限super:admin -->  super:xQJmxLMiHGwaqBvst5y6rkB6HQs=
+    vi zkServer.sh
+    #找到 nohup $JAVA ....,添加下面语句
+    "-Dzookeeper.DigestAuthenticationProvider.superDigest=super:xQJmxLMiHGwaqBvst5y6rkB6HQs="
+    #重启服务，进入zookeeper，用超级管理员账号授权
+    addauth digest super:admin
 #####设置“XXL-CONF 配置工厂”
 ```
     @Bean
@@ -73,7 +81,7 @@ spring mvc
 ```
     rpm -qa|grep java 		#查看有哪些openjdk版本
     rpm -qa | grep jdk | xargs rpm -e --nodeps  #删除openjdk
-    wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie;" https://***/jdk-8u162-linux-x64.rpm		#下载rpm包，地址到oracle官网找
+    wget --no-cook	ies --header "Cookie: oraclelicense=acce	pt-securebackup-cookie;" https://***/jdk-8u162-linux-x64.rpm		#下载rpm包，地址到oracle官网找
     rpm -ivh jdk***.rpm		#安装JDK
     #添加环境变量
     JAVA_HOME=/usr/java/jdk1.8.0_172-amd64/
