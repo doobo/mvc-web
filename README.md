@@ -34,17 +34,17 @@ spring mvc
     ```
     #####简单权限配置
     ```
-#一般授权过程,只对该节点有效,不继承权限;删除的权限,在父节点,和Linux权限相似
-echo -n zookeeper:zookeeper | openssl dgst -binary -sha1 | openssl base64  #编译密码，用于设置权限
+//一般授权过程,只对该节点有效,不继承权限;删除的权限,在父节点,和Linux权限相似
+echo -n zookeeper:zookeeper | openssl dgst -binary -sha1 | openssl base64  //编译密码，用于设置权限
 setAcl /zookeeper/quota digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
 setAcl /zookeeper digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
 setAcl /zookeeper digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
-create /xxl-coof xxl-conf		#创建节点，后面设置权限
+create /xxl-coof xxl-conf		//创建节点，后面设置权限
 setAcl /xxl-coof digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca
-setAcl / digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca #根节点设置权限
+setAcl / digest:zookeeper:4lvlzsipXVaEhXMd+2qMrLc0at8=:rwdca //根节点设置权限
 
-#现在使用ls get等命令之前，需要授权
-addauth digest zookeeper:zookeeper  #授权
+//现在使用ls get等命令之前，需要授权
+addauth digest zookeeper:zookeeper  //授权
 ls /		#查看节点
     ```
 #####忘记授权账号或密码
