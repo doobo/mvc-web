@@ -23,7 +23,7 @@
         <!-- junit版本号 -->
         <junit.version>4.12</junit.version>
         <!-- zookeeper -->
-        <zookeeper.version>3.4.12</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
     </properties>
 
     <repositories>
